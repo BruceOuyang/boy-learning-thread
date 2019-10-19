@@ -1,4 +1,4 @@
-package bruce.bugmakers.club.p01state;
+package bruce.bugmakers.club.state;
 
 import lombok.extern.slf4j.Slf4j;
 

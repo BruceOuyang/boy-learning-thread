@@ -1,4 +1,4 @@
-package bruce.bugmakers.club.p02stop;
+package bruce.bugmakers.club.stop;
 
 import lombok.extern.slf4j.Slf4j;
 

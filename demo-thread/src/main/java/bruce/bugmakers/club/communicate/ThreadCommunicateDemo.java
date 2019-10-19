@@ -1,11 +1,11 @@
-package bruce.bugmakers.club.p03communicate;
+package bruce.bugmakers.club.communicate;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * ThreadCommunicateDemo
+ * ThreadCommunicateDemo 线程通信示例
  *
  * @Author Bruce
  * @Date 2019/10/18 21:59
