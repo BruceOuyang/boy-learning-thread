@@ -13,9 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ThreadStateDemo {
 
     public static void main(String [] args) throws InterruptedException {
-        test1New2Runnable2Terminated();
-        test2New2Runnable2Wait2Runnable2Terminated_sleepWay();
-        test3New2Runnable2Blocked2Runnable2Terminated_sleepWay();
+//        test1New2Runnable2Terminated();
+//        test2New2Runnable2Wait2Runnable2Terminated_sleepWay();
+        test2New2Runnable2Wait2Runnable2Terminated_waitNotifyWay();
+//        test3New2Runnable2Blocked2Runnable2Terminated_sleepWay();
     }
 
     /**
@@ -71,6 +72,48 @@ public class ThreadStateDemo {
         Thread.sleep(3000L);
 
         log.info("调用 start 方法且再等待 3 秒后，thread2 当前状态：{}", thread2.getState().toString());
+        log.info("");
+        log.info("");
+    }
+
+    /**
+     * 第二种状态切换：新建 -> 运行 -> 等待(wait/notify方式) -> 运行 -> 终止
+     */
+    public static void test2New2Runnable2Wait2Runnable2Terminated_waitNotifyWay() throws InterruptedException {
+
+        log.info("==================================第二种状态切换：新建 -> 运行 -> 等待(wait/notify方式) -> 运行 -> 终止==================================");
+
+        Thread thread2 = new Thread(() -> {
+            synchronized (ThreadStateDemo.class) {
+                try {
+                    ThreadStateDemo.class.wait();
+                    log.info("thread2 当前状态：{}", Thread.currentThread().getState().toString());
+                    log.info("thread2 执行了");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        log.info("未调用 start 方法，thread2 当前状态：{}", thread2.getState().toString());
+
+        thread2.start();
+
+        log.info("调用 start 方法，thread2 当前状态：{}", thread2.getState().toString());
+
+        Thread.sleep(200L);
+
+        log.info("调用 start 方法且等待 200 毫秒后，thread2 当前状态：{}", thread2.getState().toString());
+
+        synchronized (ThreadStateDemo.class) {
+            ThreadStateDemo.class.notify();
+        }
+
+        log.info("释放锁后，thread2 当前状态：{}", thread2.getState().toString());
+
+        Thread.sleep(1000L);
+
+        log.info("等待 1000 毫秒后，thread2 当前状态：{}", thread2.getState().toString());
         log.info("");
         log.info("");
     }
